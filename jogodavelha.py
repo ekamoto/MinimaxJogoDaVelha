@@ -5,6 +5,11 @@
 # Jogo da Velha Utilizando MiniMax
 #
 
+from Node import Node
+
+# Nó raiz
+raiz = Node()
+
 linha, coluna = 5, 5;
 
 matrix = [[0 for x in range(coluna)] for y in range(linha)]
@@ -90,6 +95,34 @@ def set_posicao_9():
     matrix[4][4] = "0"
     return "Set Posição 9\n"
 
+# Get posições
+def get_posicao_1():
+    return matrix[0][0]
+
+def get_posicao_2():
+    return matrix[0][2]
+
+def get_posicao_3():
+    return matrix[0][4]
+
+def get_posicao_4():
+    return matrix[2][0]
+
+def get_posicao_5():
+    return matrix[2][2]
+
+def get_posicao_6():
+    return matrix[2][4]
+
+def get_posicao_7():
+    return matrix[4][0]
+
+def get_posicao_8():
+    return matrix[4][2]
+
+def get_posicao_9():
+    return matrix[4][4]
+
 def set_sair():
     global jogar
     jogar = 0
@@ -121,22 +154,37 @@ def copia_matrix(matrix):
             novo[linha][coluna] = matrix[linha][coluna]
     return novo
 
-def gera_filhos(matrix):
+def eh_terminal(estado, encerra):
 
-    lista_estados = ListaEstados([])
+    # TODO: Diego
+    return None
+
+def gera_filhos(nd):
+
+    # lista_estados = ListaEstados([])
+
+    jogador = "X" if nd.jogador == "0" else "0"
 
     for linha in range(0, 5):
         for coluna in range(0, 5):
-            if(matrix[linha][coluna] != "|" and matrix[linha][coluna] != "-" and matrix[linha][coluna] != "0"):
+            if(nd.estado[linha][coluna] != "|" and nd.estado[linha][coluna] != "-" and nd.estado[linha][coluna] != "0" and nd.estado[linha][coluna] != "X"):
 
-                novo_estado = copia_matrix(matrix)
-                novo_estado[linha][coluna] = "X"
-                lista_estados.push(novo_estado);
+                novo_estado = copia_matrix(nd.estado)
+                novo_estado[linha][coluna] = jogador
 
-    for estado in lista_estados:
-        print "----------------------------"
-        mostra_por_linhas(estado)
-    print "----------------------------"
+                novo_no = Node()
+                novo_no.pai = nd
+                novo_no.jogador = jogador
+                novo_no.minimax = eh_terminal(novo_estado, 0)
+                novo_no.estado = novo_estado
+
+                # Filhos somente se não for terminal
+                if(novo_no.minimax != None):
+                    gera_filhos(novo_no)
+
+                nd.filhos.append(novo_no)
+
+                #lista_estados.push(novo_estado);
 
 
 # Laço infinito para pegar jogada
@@ -144,9 +192,25 @@ while(jogar):
     posicao = raw_input("Escolha uma posição para jogar. 0 para sair: ")
 
     set_posicao(posicao)
+
+    # Usuário joga primeiro
+    # TODO criar rotina para poder setar inicio e jogada
+    # do computador
+    raiz.jogador = "0"
+    raiz.estado = matrix
+
+    gera_filhos(raiz)
+
     print "*****************************"
-    mostra_por_linhas(matrix)
+    # mostra_por_linhas(matrix)
+    # Listando filhos inseridos
+    for nd in raiz.filhos:
+        print "----------------------------"
+        mostra_por_linhas(nd.estado)
+    print "----------------------------"
+
     print "*****************************"
 
-    gera_filhos(matrix)
+
+
     #mostra_por_linhas(matrix)
