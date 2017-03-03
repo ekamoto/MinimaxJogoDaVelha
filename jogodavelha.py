@@ -7,12 +7,12 @@
 
 from Node import Node
 
-# Nó raiz
-raiz = Node()
-
 linha, coluna = 5, 5;
 
-matrix = [[0 for x in range(coluna)] for y in range(linha)]
+# Nó raiz
+raiz = Node()
+estado_atual = Node()
+estado_atual.estado = [[0 for x in range(coluna)] for y in range(linha)]
 
 # Lista de Estados
 class ListaEstados(list):
@@ -55,73 +55,81 @@ def mostra_por_linhas(matrix):
             l += str(coluna);
         print "  "+l
 
-monta_matrix(matrix)
-mostra_por_linhas(matrix)
+monta_matrix(estado_atual.estado)
 
 # Set posições
 def set_posicao_1():
-    matrix[0][0] = "0"
+    #matrix[0][0] = "0"
+    estado_atual.estado[0][0] = "0"
     return "Set Posição 1\n"
 
 def set_posicao_2():
-    matrix[0][2] = "0"
+    #matrix[0][2] = "0"
+    estado_atual.estado[0][2] = "0"
     return "Set Posição 2\n"
 
 def set_posicao_3():
-    matrix[0][4] = "0"
+    #matrix[0][4] = "0"
+    estado_atual.estado[0][4] = "0"
     return "Set Posição 3\n"
 
 def set_posicao_4():
-    matrix[2][0] = "0"
+    #matrix[2][0] = "0"
+    estado_atual.estado[2][0] = "0"
     return "Set Posição 4\n"
 
 def set_posicao_5():
-    matrix[2][2] = "0"
+    #matrix[2][2] = "0"
+    estado_atual.estado[2][2] = "0"
     return "Set Posição 5\n"
 
 def set_posicao_6():
-    matrix[2][4] = "0"
+    #matrix[2][4] = "0"
+    estado_atual.estado[2][4] = "0"
     return "Set Posição 6\n"
 
 def set_posicao_7():
-    matrix[4][0] = "0"
+    #matrix[4][0] = "0"
+    estado_atual.estado[4][0] = "0"
     return "Set Posição 7\n"
 
 def set_posicao_8():
-    matrix[4][2] = "0"
+    #matrix[4][2] = "0"
+    estado_atual.estado[4][2] = "0"
     return "Set Posição 8\n"
 
 def set_posicao_9():
-    matrix[4][4] = "0"
+    #matrix[4][4] = "0"
+    estado_atual.estado[4][4] = "0"
     return "Set Posição 9\n"
 
 # Get posições
 def get_posicao_1():
-    return matrix[0][0]
+    return estado_atual.estado[0][0]
 
 def get_posicao_2():
-    return matrix[0][2]
+    return estado_atual.estado[0][2]
 
 def get_posicao_3():
-    return matrix[0][4]
+    return estado_atual.estado[0][4]
 
 def get_posicao_4():
-    return matrix[2][0]
+    return estado_atual.estado[2][0]
 
 def get_posicao_5():
-    return matrix[2][2]
+    return estado_atual.estado[2][2]
 
 def get_posicao_6():
-    return matrix[2][4]
+    return estado_atual.estado[2][4]
 
 def get_posicao_7():
-    return matrix[4][0]
+    return estado_atual.estado[4][0]
 
 def get_posicao_8():
-    return matrix[4][2]
+    return estado_atual.estado[4][2]
 
 def get_posicao_9():
-    return matrix[4][4]
+    return estado_atual.estado[4][4]
 
 def set_sair():
     global jogar
@@ -178,39 +186,65 @@ def gera_filhos(nd):
                 novo_no.minimax = eh_terminal(novo_estado, 0)
                 novo_no.estado = novo_estado
 
-                # Filhos somente se não for terminal
-                if(novo_no.minimax != None):
-                    gera_filhos(novo_no)
-
                 nd.filhos.append(novo_no)
 
-                #lista_estados.push(novo_estado);
+                # Essa recursividade não funciona...
+                #Filhos somente se não for terminal
+                #if(novo_no.minimax != None):
+                #    gera_filhos(novo_no)
 
+# Computador joga
+def joga_computador():
+
+    global estado_atual
+    print "Joga Computador"
+
+    maximo = -1
+
+    for filho in estado_atual.filhos:
+        if(filho.minimax != None and filho.minimax > maximo):
+            maximo = filho.minimax
+            estado_atual = filho
+
+    # Verifica se atingiu estado terminal, encerrando o jogo
+    eh_terminal(estado_atual.estado, 1);
+    print "Fim Joga Computador"
 
 # Laço infinito para pegar jogada
 while(jogar):
     posicao = raw_input("Escolha uma posição para jogar. 0 para sair: ")
 
     set_posicao(posicao)
+    mostra_por_linhas(estado_atual.estado)
 
-    # Usuário joga primeiro
-    # TODO criar rotina para poder setar inicio e jogada
-    # do computador
-    raiz.jogador = "0"
-    raiz.estado = matrix
+    if(len(raiz.filhos) == 0):
+        # Usuário joga primeiro
+        # TODO criar rotina para poder setar inicio e jogada
+        # do computador
+        raiz.jogador = "0"
+        raiz.estado = estado_atual.estado
 
-    gera_filhos(raiz)
-
-    print "*****************************"
-    # mostra_por_linhas(matrix)
-    # Listando filhos inseridos
-    for nd in raiz.filhos:
+        gera_filhos(raiz)
+        print "*****************************"
+        # Listando filhos inseridos
+        contador = 0
+        for nd in raiz.filhos:
+            print "----------------------------"
+            mostra_por_linhas(nd.estado)
+            contador = contador+1
+            if(contador==10):
+                break
         print "----------------------------"
-        mostra_por_linhas(nd.estado)
-    print "----------------------------"
 
-    print "*****************************"
+        #print "*****************************"
 
+    joga_computador()
 
+    mostra_por_linhas(estado_atual.estado)
 
-    #mostra_por_linhas(matrix)
+    # Listando filhos inseridos
+    #for nd in estado_atual.filhos:
+    #    print "----------------------------"
+    #    mostra_por_linhas(nd.estado)
+    #print "*****************************"
+    #print "----------------------------"
