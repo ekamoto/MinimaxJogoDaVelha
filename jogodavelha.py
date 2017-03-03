@@ -6,6 +6,7 @@
 #
 
 from Node import Node
+import sys
 
 linha, coluna = 5, 5;
 
@@ -164,63 +165,57 @@ def copia_matrix(matrix):
 
 def eh_terminal(estado, encerra):
 
-	pontuacaoMaquina = 0
+    # pontuacaoMaquina = 0
+    # espacosVazios = 0
 
-    #for x in coluna:
-    #    if (estado[0][x] != null and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
+    # for x in range(0,5):
+    #    if (estado[0][x] is not None and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
     #        if (estado[0][x] == "X"):
     #            pontuacaoMaquina = 1
     #        else:
     #            pontuacaoMaquina = -1
+    # if(pontuacaoMaquina == 0):
+    #     for y in range(0,5):
+    #         if(estado[0][x] is not None and estado[y][0] == estado[y][2] and estado[y][0] == estado[y][4]):
+    #             if (estado[y][0] == "X"):
+    #                pontuacaoMaquina = 1
+    #             else:
+    #                pontuacaoMaquina = -1
 
-    #return None
+    # if(pontuacaoMaquina == 0):
+    #     if(estado[2][2] is not 0 and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][5] == estado[2][2] and estado[0][5] == estado[4][0])):
+    #         if (estado[2][2] == "X"):
+    #            pontuacaoMaquina = 1
+    #         else:
+    #            pontuacaoMaquina = -1
 
+    # for i in range(1,10):
+    #     # TENTANDO PEGAR NOME DINAMICO DAS FUNCTIONS
+    #     test = str(i)
+    #     # print getattr(lista_estados, "get_posicao_%s" % test)() + "   AAAAAAAAAAAAAAA"
+    #     # if(funcName == "0" or funcName == "X"): 
+    #     espacosVazios = 0
 
-# function ehTerminal(estado,encerra) {	// verifica se estado é terminal, retornando seu valor de utilidade
-# 	var x,y;							// retorna null caso não seja estado terminal
-# 	var brancos = 0;					// encerra = 0 para calcular o valor de utilidade durante a geração da árvore
-# 	var utilidade = null;				//         = 1 para encerrar o jogo quando estado for terminal
+    # if(pontuacaoMaquina != 0):
+    #     if(encerra):
+    #         if(pontuacaoMaquina > 0):
+    #             #termina() utilizar func termina..
+    #             print("Computador wins")
+    #         else:
+    #             print("Output impossível")
+    #     else:
+    #         return pontuacaoMaquina * (espacosVazios + 1)
 
-# 	for (y=0; y<3; y++)		// testa linhas
-# 		if (estado[y][0] != undefined && estado[y][0] == estado[y][1] && estado[y][0] == estado[y][2]) {
-# 			utilidade = (estado[y][0] == "X")? 1: -1;	// utilidade 1 para X (CPU), -1 para O (humano)
-# 			break;
-# 		}
-# 	if (!utilidade)			// testa colunas
-# 		for (x=0; x<3; x++)
-# 			if (estado[0][x] != undefined && estado[0][x] == estado[1][x] && estado[0][x] == estado[2][x]) {
-# 				utilidade = (estado[0][x] == "X")? 1: -1;
-# 				break;
-# 			}
-# 	if (!utilidade)			// testa diagonais
-# 		if ( estado[1][1] != undefined && (
-# 			 (estado[0][0] == estado[1][1] && estado[0][0] == estado[2][2]) ||
-# 			 (estado[0][2] == estado[1][1] && estado[0][2] == estado[2][0])    ) )
-# 			utilidade = (estado[1][1] == "X")? 1: -1;
+    # else:
+    #     if(espacosVazios == 0):
+    #         if(encerra):
+    #             #termina() empate
+    #             print("Todo mundo é bom nessa porra, empatou")
+    #         else:
+    #             return 0
+    #     else:
+    #         return None
 
-# 	for (y=0; y<3; y++)
-# 		for (x=0; x<3; x++)
-# 			if (estado[y][x] == undefined)	// conta espaços em branco no tabuleiro
-# 				brancos++;
-
-# 	if (utilidade)					// se achou um vencedor
-# 		if (encerra)
-# 			if (utilidade > 0)		// utilidade > 0 venceu CPU
-# 				termina("Eu ganhei!");
-# 			else
-# 				termina("Você ganhou!");	// essa mensagem nunca será exibida :)
-# 		else
-# 			return utilidade*(brancos+1); 	// retorna valor de utilidade - nº de casas vagas dá um peso maior,
-# 											// favorecendo a escolha da jogada vitoriosa no nível mais raso
-# 	else
-# 		if (!brancos)				// se não tem mais espaços em branco também é terminal...
-# 			if (encerra)
-# 				termina("Empatamos!");
-# 			else
-# 				return 0;			// ...com utilidade 0 (empate)
-# 		else
-# 			return null; 			// se ainda tem brancos, não é terminal
-# }
 
 
 def gera_filhos(nd):
