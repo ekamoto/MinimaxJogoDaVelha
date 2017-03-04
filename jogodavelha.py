@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 # Leandro Shindi Ekamoto
+# Diego Takaki
+#
 # Jogo da Velha Utilizando MiniMax
 #
 
@@ -218,7 +220,34 @@ def eh_terminal(estado, encerra):
     #     else:
     #         return None
 
+# Calcula MiniMax de cada nó
+def calcula_minimax(nodo):
 
+    min = 9999
+    max = -1
+
+    # Percorre todos os filhos do nodo
+    for filho in nodo.filhos:
+
+        # Se um filho ainda nao tem um valor minimax (nao e folha da arvore)
+        if (filho.minimax == None):
+            # Chama a funcao recursivamente para aquele filho
+            calcula_minimax(filho)
+
+        # Guarda valor max (maior minimax entre os filhos)
+        if (max == -1 or filho.minimax > max):
+            max = filho.minimax
+
+        # guarda valor min (menor minimax entre os filhos)
+        if (min == 9999 or filho.minimax < min):
+            min = filho.minimax;
+
+    # Se a proxima jogada e da CPU, retorna valor max
+    if (nodo.jogador == "0"):
+        nodo.minimax = max
+    else:
+        # Caso contrario, retorna valor min
+        nodo.minimax = min
 
 def gera_filhos(nd):
 
@@ -247,7 +276,6 @@ def gera_filhos(nd):
 def joga_computador():
 
     global estado_atual
-    print "Joga Computador"
 
     maximo = -1
 
@@ -258,7 +286,6 @@ def joga_computador():
 
     # Verifica se atingiu estado terminal, encerrando o jogo
     eh_terminal(estado_atual.estado, 1);
-    print "Fim Joga Computador"
 
 # Laço infinito para pegar jogada
 while(jogar):
@@ -280,28 +307,35 @@ while(jogar):
         raiz.estado = estado_atual.estado
 
         pilha.append(raiz)
-        
+
         while(len(pilha) > 0):
             no = pilha.pop(len(pilha)-1)
             gera_filhos(no)
 
         # Testando os filhos da primeira camada
-        if(1):
+        if(0):
             print "**************FILHOS DA RAIZ***************"
             # Listando filhos inseridos
-
             for nd in raiz.filhos:
                 print "----------------------------"
                 mostra_por_linhas(nd.estado)
 
             print "*****************************"
 
+        print "Calculando pontos"
+        # Calcula todos os pontos de cada nó
+        calcula_minimax(raiz)
+        print "Fim pontos"
 
         #print "*****************************"
 
+    print "Joga Computador"
     joga_computador()
+    print "Fim Joga Computador"
 
-    #mostra_por_linhas(estado_atual.estado)
+    print "Estado atual"
+    mostra_por_linhas(estado_atual.estado)
+    print "Fim Estado atual"
 
     # Listando filhos inseridos
     #for nd in estado_atual.filhos:
