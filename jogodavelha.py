@@ -11,9 +11,10 @@ import sys
 linha, coluna = 5, 5;
 
 # Nó raiz
-raiz = Node()
-estado_atual = Node()
+raiz = Node([],[],None,None,[])
+estado_atual = Node([],[],None,None,[])
 estado_atual.estado = [[0 for x in range(coluna)] for y in range(linha)]
+pilha = []
 
 # Lista de Estados
 class ListaEstados(list):
@@ -165,6 +166,7 @@ def copia_matrix(matrix):
 
 def eh_terminal(estado, encerra):
 
+    return None
     # pontuacaoMaquina = 0
     # espacosVazios = 0
 
@@ -193,7 +195,7 @@ def eh_terminal(estado, encerra):
     #     # TENTANDO PEGAR NOME DINAMICO DAS FUNCTIONS
     #     test = str(i)
     #     # print getattr(lista_estados, "get_posicao_%s" % test)() + "   AAAAAAAAAAAAAAA"
-    #     # if(funcName == "0" or funcName == "X"): 
+    #     # if(funcName == "0" or funcName == "X"):
     #     espacosVazios = 0
 
     # if(pontuacaoMaquina != 0):
@@ -221,6 +223,7 @@ def eh_terminal(estado, encerra):
 def gera_filhos(nd):
 
     # lista_estados = ListaEstados([])
+    global pilha
 
     jogador = "X" if nd.jogador == "0" else "0"
 
@@ -231,18 +234,14 @@ def gera_filhos(nd):
                 novo_estado = copia_matrix(nd.estado)
                 novo_estado[linha][coluna] = jogador
 
-                novo_no = Node()
+                novo_no = Node([],[],None,None,[])
                 novo_no.pai = nd
                 novo_no.jogador = jogador
                 novo_no.minimax = eh_terminal(novo_estado, 0)
                 novo_no.estado = novo_estado
 
+                pilha.append(novo_no)
                 nd.filhos.append(novo_no)
-
-                # Essa recursividade não funciona...
-                #Filhos somente se não for terminal
-                #if(novo_no.minimax != None):
-                #    gera_filhos(novo_no)
 
 # Computador joga
 def joga_computador():
@@ -263,35 +262,46 @@ def joga_computador():
 
 # Laço infinito para pegar jogada
 while(jogar):
+
+    mostra_por_linhas(estado_atual.estado)
+
     posicao = raw_input("Escolha uma posição para jogar. 0 para sair: ")
 
     set_posicao(posicao)
+
     mostra_por_linhas(estado_atual.estado)
 
     if(len(raiz.filhos) == 0):
+
         # Usuário joga primeiro
         # TODO criar rotina para poder setar inicio e jogada
         # do computador
         raiz.jogador = "0"
         raiz.estado = estado_atual.estado
 
-        gera_filhos(raiz)
-        print "*****************************"
-        # Listando filhos inseridos
-        contador = 0
-        for nd in raiz.filhos:
-            print "----------------------------"
-            mostra_por_linhas(nd.estado)
-            contador = contador+1
-            if(contador==10):
-                break
-        print "----------------------------"
+        pilha.append(raiz)
+        
+        while(len(pilha) > 0):
+            no = pilha.pop(len(pilha)-1)
+            gera_filhos(no)
+
+        # Testando os filhos da primeira camada
+        if(1):
+            print "**************FILHOS DA RAIZ***************"
+            # Listando filhos inseridos
+
+            for nd in raiz.filhos:
+                print "----------------------------"
+                mostra_por_linhas(nd.estado)
+
+            print "*****************************"
+
 
         #print "*****************************"
 
     joga_computador()
 
-    mostra_por_linhas(estado_atual.estado)
+    #mostra_por_linhas(estado_atual.estado)
 
     # Listando filhos inseridos
     #for nd in estado_atual.filhos:
