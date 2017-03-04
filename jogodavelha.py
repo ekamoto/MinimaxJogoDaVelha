@@ -8,7 +8,7 @@
 #
 
 from Node import Node
-import sys
+
 
 linha, coluna = 5, 5;
 
@@ -168,57 +168,62 @@ def copia_matrix(matrix):
 
 def eh_terminal(estado, encerra):
 
-    return None
-    # pontuacaoMaquina = 0
-    # espacosVazios = 0
+    # return None
+    pontuacaoMaquina = 0
+    espacosVazios = 9
 
-    # for x in range(0,5):
-    #    if (estado[0][x] is not None and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
-    #        if (estado[0][x] == "X"):
-    #            pontuacaoMaquina = 1
-    #        else:
-    #            pontuacaoMaquina = -1
-    # if(pontuacaoMaquina == 0):
-    #     for y in range(0,5):
-    #         if(estado[0][x] is not None and estado[y][0] == estado[y][2] and estado[y][0] == estado[y][4]):
-    #             if (estado[y][0] == "X"):
-    #                pontuacaoMaquina = 1
-    #             else:
-    #                pontuacaoMaquina = -1
+    for x in range(0,5):
+       if (estado[0][x] is not None and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
+           if (estado[0][x] == "X"):
+                # print "ENTREI AQ"
+                pontuacaoMaquina = 1
+           else:
+                # print "ENTREI AQ TBTBTBTBTB"
+                pontuacaoMaquina = -1
 
-    # if(pontuacaoMaquina == 0):
-    #     if(estado[2][2] is not 0 and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][5] == estado[2][2] and estado[0][5] == estado[4][0])):
-    #         if (estado[2][2] == "X"):
-    #            pontuacaoMaquina = 1
-    #         else:
-    #            pontuacaoMaquina = -1
+    if(pontuacaoMaquina == 0):
+        for y in range(0,5):
+            if(estado[0][x] is not None and estado[y][0] == estado[y][2] and estado[y][0] == estado[y][4]):
+                if (estado[y][0] == "X"):
+                    # print "AQUI TBTBTB"   
+                    pontuacaoMaquina = 1
+                else:
+                   pontuacaoMaquina = -1
 
-    # for i in range(1,10):
-    #     # TENTANDO PEGAR NOME DINAMICO DAS FUNCTIONS
-    #     test = str(i)
-    #     # print getattr(lista_estados, "get_posicao_%s" % test)() + "   AAAAAAAAAAAAAAA"
-    #     # if(funcName == "0" or funcName == "X"):
-    #     espacosVazios = 0
+    if(pontuacaoMaquina == 0):
+        if(estado[2][2] is not 0 and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][5] == estado[2][2] and estado[0][5] == estado[4][0])):
+            if (estado[2][2] == "X"):
+               pontuacaoMaquina = 1
+            else:
+               pontuacaoMaquina = -1
 
-    # if(pontuacaoMaquina != 0):
-    #     if(encerra):
-    #         if(pontuacaoMaquina > 0):
-    #             #termina() utilizar func termina..
-    #             print("Computador wins")
-    #         else:
-    #             print("Output impossível")
-    #     else:
-    #         return pontuacaoMaquina * (espacosVazios + 1)
+    for i in range(0,5):
+        for j in range(0,5):
+            if (estado[i][j] == "X" or estado[i][j] == "0"):
+                espacosVazios -= 1
 
-    # else:
-    #     if(espacosVazios == 0):
-    #         if(encerra):
-    #             #termina() empate
-    #             print("Todo mundo é bom nessa porra, empatou")
-    #         else:
-    #             return 0
-    #     else:
-    #         return None
+    if(pontuacaoMaquina != 0):
+        if(encerra == 1):
+            if(pontuacaoMaquina > 0):
+                #termina() utilizar func termina..
+                print("Computador wins")
+            else:
+                print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra) 
+                print("Output impossível")
+        else:
+            peso = pontuacaoMaquina * (espacosVazios + 1)
+            print str(peso) + " PESOS"
+            return peso
+
+    else:
+        if(espacosVazios == 0):
+            if(encerra == 1):
+                #termina() empate
+                print("Todo mundo é bom, empatou")
+            else:
+                return None
+        else:
+            return None
 
 # Calcula MiniMax de cada nó
 def calcula_minimax(nodo):
@@ -267,6 +272,7 @@ def gera_filhos(nd):
                 novo_no.pai = nd
                 novo_no.jogador = jogador
                 novo_no.minimax = eh_terminal(novo_estado, 0)
+                print "AAAAAAAAAAAAAAAAAA MINIMAXXXXXX " + str(novo_no.minimax)
                 novo_no.estado = novo_estado
 
                 pilha.append(novo_no)
