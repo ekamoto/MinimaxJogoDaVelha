@@ -214,7 +214,7 @@ def eh_terminal(estado, encerra):
                 set_sair()
             else:
                 print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra) 
-                print("Output impossível")
+                print("Humano ganha - Impossível")
                 set_sair()
         else:
             peso = pontuacaoMaquina * (espacosVazios + 1)
@@ -290,7 +290,6 @@ def joga_computador():
     global estado_atual
 
     maximo = -1
-
     for filho in estado_atual.filhos:
         if(filho.minimax != None and filho.minimax > maximo):
             maximo = filho.minimax
@@ -311,7 +310,6 @@ while(jogar):
     mostra_por_linhas(estado_atual.estado)
 
     if(len(raiz.filhos) == 0):
-
         # Usuário joga primeiro
         # TODO criar rotina para poder setar inicio e jogada
         # do computador
