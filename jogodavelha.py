@@ -190,7 +190,7 @@ def eh_terminal(estado, encerra):
     pontuacaoMaquina = 0
     espacosVazios = 9
     # Verificando se tem combo que termina o jogo nas linhas
-    for x in range(0,5):
+    for x in range(0,4):
        if (estado[x][0] is not None and estado[x][0] == estado[x][2] and estado[x][2] == estado[x][4]):
             if (estado[x][0] == "X"):
                 # print "ENTREI AQ"
@@ -201,7 +201,7 @@ def eh_terminal(estado, encerra):
 
     # Verificando se tem combo que termina o jogo nas colunas
     if(pontuacaoMaquina == 0):
-        for y in range(0,5):
+        for y in range(0,4):
             if(estado[0][y] is not None and estado[0][y] == estado[2][y] and estado[2][y] == estado[4][y]):
                 if (estado[0][y] == "X"):
                     # print "AQUI TBTBTB"
