@@ -172,11 +172,11 @@ def eh_terminal(estado, encerra):
     espacosVazios = 9
     # Verificando se tem combo que termina o jogo nas linhas
     for x in range(0,5):
-       if (estado[0][x] is not None and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
+       if (estado[x][0] is not None and estado[x][0] == estado[x][2] and estado[x][2] == estado[x][4]):
             if (estado[0][x] == "X"):
                 # print "ENTREI AQ"
                 pontuacaoMaquina = 1
-            else:
+            elif (estado[0][x] == "0"):
                 # print "ENTREI AQ TBTBTBTBTB"
                 pontuacaoMaquina = -1
             break
@@ -184,21 +184,21 @@ def eh_terminal(estado, encerra):
     # Verificando se tem combo que termina o jogo nas colunas
     if(pontuacaoMaquina == 0):
         for y in range(0,5):
-            if(estado[0][x] is not None and estado[y][0] == estado[y][2] and estado[y][0] == estado[y][4]):
+            if(estado[0][y] is not None and estado[0][y] == estado[2][y] and estado[2][y] == estado[4][y]):
                 if (estado[y][0] == "X"):
                     # print "AQUI TBTBTB"   
                     pontuacaoMaquina = 1
-                else:
+                elif (estado[y][0] == "0"):
                    pontuacaoMaquina = -1
                 break
 
 
     # Verificando se tem combo que termina o jogo nas diagonais
     if(pontuacaoMaquina == 0):
-        if(estado[2][2] is not 0 and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][5] == estado[2][2] and estado[0][5] == estado[4][0])):
+        if(estado[2][2] is not None and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][4] == estado[2][2] and estado[0][4] == estado[4][0])):
             if (estado[2][2] == "X"):
                pontuacaoMaquina = 1
-            else:
+            elif (estado [2][2] == "0"):
                pontuacaoMaquina = -1
     # Conta espaços em branco pra continuar o jogo ou não
     for i in range(0,5):
@@ -227,8 +227,9 @@ def eh_terminal(estado, encerra):
                 print("Todo mundo é bom, empatou")
                 set_sair()
             else:
-                return None
+                return 0    
         else:
+            print "Jogo não terminado"
             return None
 
 # Calcula MiniMax de cada nó
@@ -323,7 +324,7 @@ while(jogar):
             gera_filhos(no)
 
         # Testando os filhos da primeira camada
-        if(0):
+        if(1):
             print "**************FILHOS DA RAIZ***************"
             # Listando filhos inseridos
             for nd in raiz.filhos:
