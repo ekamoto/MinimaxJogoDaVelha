@@ -207,19 +207,21 @@ def eh_terminal(estado, encerra):
             if(pontuacaoMaquina > 0):
                 #termina() utilizar func termina..
                 print("Computador wins")
+                set_sair()
             else:
                 print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra) 
                 print("Output impossível")
+                set_sair()
         else:
             peso = pontuacaoMaquina * (espacosVazios + 1)
-            print str(peso) + " PESOS"
+            print "PESO: " + str(peso)
             return peso
 
     else:
         if(espacosVazios == 0):
             if(encerra == 1):
-                #termina() empate
                 print("Todo mundo é bom, empatou")
+                set_sair()
             else:
                 return None
         else:
@@ -272,7 +274,7 @@ def gera_filhos(nd):
                 novo_no.pai = nd
                 novo_no.jogador = jogador
                 novo_no.minimax = eh_terminal(novo_estado, 0)
-                print "AAAAAAAAAAAAAAAAAA MINIMAXXXXXX " + str(novo_no.minimax)
+                print "AAAAAAAAAAAAAAAAAA MINIMAX " + str(novo_no.minimax)
                 novo_no.estado = novo_estado
 
                 pilha.append(novo_no)
