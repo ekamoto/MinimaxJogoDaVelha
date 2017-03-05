@@ -203,7 +203,6 @@ def eh_terminal(estado, encerra):
         for y in range(0,5):
             if(estado[0][y] is not None and estado[0][y] == estado[2][y] and estado[2][y] == estado[4][y]):
                 if (estado[0][y] == "X"):
-                    # print "AQUI TBTBTB"
                     pontuacaoMaquina = 1
                 elif (estado[0][y] == "0"):
                    pontuacaoMaquina = -1
@@ -225,10 +224,9 @@ def eh_terminal(estado, encerra):
     if(pontuacaoMaquina != 0):
         if(encerra == 1):
             if(pontuacaoMaquina > 0):
-                print("Computador wins")
+                print("Computador win!")
                 set_sair()
             else:
-                print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra)
                 print("Humano ganha - Impossível")
                 set_sair()
         else:
@@ -238,7 +236,7 @@ def eh_terminal(estado, encerra):
     else:
         if(espacosVazios == 0):
             if(encerra == 1):
-                print("Todo mundo é bom, empatou")
+                print("Empate!")
                 set_sair()
             else:
                 return 0
