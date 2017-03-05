@@ -15,6 +15,7 @@ linha, coluna = 5, 5;
 # Nó raiz
 raiz = Node([],[],None,None,[])
 estado_atual = Node([],[],None,None,[])
+estado_atual_aux = Node([],[],None,None,[])
 estado_atual.estado = [[0 for x in range(coluna)] for y in range(linha)]
 pilha = []
 
@@ -63,76 +64,94 @@ monta_matrix(estado_atual.estado)
 
 # Set posições
 def set_posicao_1():
+    global estado_atual
     #matrix[0][0] = "0"
     estado_atual.estado[0][0] = "0"
     return "Set Posição 1\n"
 
 def set_posicao_2():
+    global estado_atual
     #matrix[0][2] = "0"
     estado_atual.estado[0][2] = "0"
     return "Set Posição 2\n"
 
 def set_posicao_3():
+    global estado_atual
     #matrix[0][4] = "0"
     estado_atual.estado[0][4] = "0"
     return "Set Posição 3\n"
 
 def set_posicao_4():
+    global estado_atual
     #matrix[2][0] = "0"
     estado_atual.estado[2][0] = "0"
     return "Set Posição 4\n"
 
 def set_posicao_5():
+    global estado_atual
     #matrix[2][2] = "0"
     estado_atual.estado[2][2] = "0"
     return "Set Posição 5\n"
 
 def set_posicao_6():
+    global estado_atual
     #matrix[2][4] = "0"
     estado_atual.estado[2][4] = "0"
     return "Set Posição 6\n"
 
 def set_posicao_7():
     #matrix[4][0] = "0"
+    global estado_atual
     estado_atual.estado[4][0] = "0"
     return "Set Posição 7\n"
 
 def set_posicao_8():
+    global estado_atual
     #matrix[4][2] = "0"
     estado_atual.estado[4][2] = "0"
     return "Set Posição 8\n"
 
 def set_posicao_9():
     #matrix[4][4] = "0"
+    global estado_atual
     estado_atual.estado[4][4] = "0"
     return "Set Posição 9\n"
 
 # Get posições
 def get_posicao_1():
+    global estado_atual
     return estado_atual.estado[0][0]
 
 def get_posicao_2():
+    global estado_atual
     return estado_atual.estado[0][2]
 
 def get_posicao_3():
+    global estado_atual
     return estado_atual.estado[0][4]
 
 def get_posicao_4():
+    global estado_atual
     return estado_atual.estado[2][0]
 
 def get_posicao_5():
+    global estado_atual
     return estado_atual.estado[2][2]
 
 def get_posicao_6():
+    global estado_atual
     return estado_atual.estado[2][4]
 
 def get_posicao_7():
+    global estado_atual
     return estado_atual.estado[4][0]
 
 def get_posicao_8():
+    global estado_atual
     return estado_atual.estado[4][2]
 
 def get_posicao_9():
+    global estado_atual
     return estado_atual.estado[4][4]
 
 def set_sair():
@@ -186,7 +205,7 @@ def eh_terminal(estado, encerra):
         for y in range(0,5):
             if(estado[0][y] is not None and estado[0][y] == estado[2][y] and estado[2][y] == estado[4][y]):
                 if (estado[y][0] == "X"):
-                    # print "AQUI TBTBTB"   
+                    # print "AQUI TBTBTB"
                     pontuacaoMaquina = 1
                 elif (estado[y][0] == "0"):
                    pontuacaoMaquina = -1
@@ -213,7 +232,7 @@ def eh_terminal(estado, encerra):
                 print("Computador wins")
                 set_sair()
             else:
-                print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra) 
+                print "Pontuação da Maquina " + str(pontuacaoMaquina) + " Espaços em branco " + str(espacosVazios) + " É pra terminar? " + str(encerra)
                 print("Humano ganha - Impossível")
                 set_sair()
         else:
@@ -227,9 +246,9 @@ def eh_terminal(estado, encerra):
                 print("Todo mundo é bom, empatou")
                 set_sair()
             else:
-                return 0    
+                return 0
         else:
-            print "Jogo não terminado"
+            #print "Jogo não terminado"
             return None
 
 # Calcula MiniMax de cada nó
@@ -282,19 +301,32 @@ def gera_filhos(nd):
                 # print "AAAAAAAAAAAAAAAAAA MINIMAX " + str(novo_no.minimax)
                 novo_no.estado = novo_estado
 
-                pilha.append(novo_no)
+            	if (novo_no.minimax == None):
+                    pilha.append(novo_no)
+
+                #pilha.append(novo_no)
                 nd.filhos.append(novo_no)
 
 # Computador joga
 def joga_computador():
 
     global estado_atual
+    estado_atual_aux = Node([],[],None,None,[])
 
     maximo = -1
+    print "Estado jogada humano"
+    mostra_por_linhas(estado_atual.estado)
+
     for filho in estado_atual.filhos:
         if(filho.minimax != None and filho.minimax > maximo):
             maximo = filho.minimax
-            estado_atual = filho
+            estado_atual_aux = filho
+
+    print "Estado jogada computador"
+
+    mostra_por_linhas(estado_atual_aux.estado)
+
+    estado_atual = estado_atual_aux
 
     # Verifica se atingiu estado terminal, encerrando o jogo
     eh_terminal(estado_atual.estado, 1);
@@ -308,7 +340,7 @@ while(jogar):
 
     set_posicao(posicao)
 
-    mostra_por_linhas(estado_atual.estado)
+    #mostra_por_linhas(estado_atual.estado)
 
     if(len(raiz.filhos) == 0):
         # Usuário joga primeiro
@@ -324,7 +356,7 @@ while(jogar):
             gera_filhos(no)
 
         # Testando os filhos da primeira camada
-        if(1):
+        if(0):
             print "**************FILHOS DA RAIZ***************"
             # Listando filhos inseridos
             for nd in raiz.filhos:
@@ -337,20 +369,11 @@ while(jogar):
         # Calcula todos os pontos de cada nó
         calcula_minimax(raiz)
         print "Fim pontos"
+        estado_atual = raiz
 
         #print "*****************************"
 
     print "Joga Computador"
     joga_computador()
     print "Fim Joga Computador"
-
-    print "Estado atual"
-    mostra_por_linhas(estado_atual.estado)
-    print "Fim Estado atual"
-
-    # Listando filhos inseridos
-    #for nd in estado_atual.filhos:
-    #    print "----------------------------"
-    #    mostra_por_linhas(nd.estado)
-    #print "*****************************"
-    #print "----------------------------"
+    #mostra_por_linhas(estado_atual.estado)
