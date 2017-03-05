@@ -168,10 +168,9 @@ def copia_matrix(matrix):
 
 def eh_terminal(estado, encerra):
 
-    # return None
     pontuacaoMaquina = 0
     espacosVazios = 9
-
+    # Verificando se tem combo que termina o jogo nas linhas
     for x in range(0,5):
        if (estado[0][x] is not None and estado[0][x] == estado[2][x] and estado[0][x] == estado[4][x]):
            if (estado[0][x] == "X"):
@@ -180,7 +179,7 @@ def eh_terminal(estado, encerra):
            else:
                 # print "ENTREI AQ TBTBTBTBTB"
                 pontuacaoMaquina = -1
-
+    # Verificando se tem combo que termina o jogo nas colunas
     if(pontuacaoMaquina == 0):
         for y in range(0,5):
             if(estado[0][x] is not None and estado[y][0] == estado[y][2] and estado[y][0] == estado[y][4]):
@@ -189,14 +188,14 @@ def eh_terminal(estado, encerra):
                     pontuacaoMaquina = 1
                 else:
                    pontuacaoMaquina = -1
-
+    # Verificando se tem combo que termina o jogo nas diagonais
     if(pontuacaoMaquina == 0):
         if(estado[2][2] is not 0 and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][5] == estado[2][2] and estado[0][5] == estado[4][0])):
             if (estado[2][2] == "X"):
                pontuacaoMaquina = 1
             else:
                pontuacaoMaquina = -1
-
+    # Conta espaços em branco pra continuar o jogo ou não
     for i in range(0,5):
         for j in range(0,5):
             if (estado[i][j] == "X" or estado[i][j] == "0"):
@@ -274,7 +273,7 @@ def gera_filhos(nd):
                 novo_no.pai = nd
                 novo_no.jogador = jogador
                 novo_no.minimax = eh_terminal(novo_estado, 0)
-                print "AAAAAAAAAAAAAAAAAA MINIMAX " + str(novo_no.minimax)
+                # print "AAAAAAAAAAAAAAAAAA MINIMAX " + str(novo_no.minimax)
                 novo_no.estado = novo_estado
 
                 pilha.append(novo_no)
