@@ -380,10 +380,6 @@ while(jogar):
 
         #print "*****************************"
     else:
-
-        #print "Filho 1"
-        #mostra_por_linhas(raiz.filhos[1].estado)
-        #print "Filhos do Filho"
         for fi in estado_atual.filhos:
             if(fi.estado == estado_atual.estado):
                 estado_atual = fi
