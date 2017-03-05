@@ -309,7 +309,6 @@ def gera_filhos(nd):
 def joga_computador():
 
     global estado_atual
-    estado_atual_aux = Node([],[],None,None,[])
 
     maximo = -1
     #print "Estado jogada humano"
@@ -323,15 +322,13 @@ def joga_computador():
             mostra_por_linhas(filho.estado)
 
             maximo = filho.minimax
-            estado_atual_aux = filho
+            estado_atual = filho
 
         contad = contad + 1
 
     #print "Estado jogada computador"
 
     #mostra_por_linhas(estado_atual_aux.estado)
-
-    estado_atual = estado_atual_aux
 
     # Verifica se atingiu estado terminal, encerrando o jogo
     eh_terminal(estado_atual.estado, 1);
