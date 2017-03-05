@@ -213,7 +213,7 @@ def eh_terminal(estado, encerra):
                 set_sair()
         else:
             peso = pontuacaoMaquina * (espacosVazios + 1)
-            print "PESO: " + str(peso)
+            # print "PESO: " + str(peso)
             return peso
 
     else:
