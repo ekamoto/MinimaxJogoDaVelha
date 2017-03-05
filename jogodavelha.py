@@ -238,6 +238,7 @@ def eh_terminal(estado, encerra):
         if(espacosVazios == 0):
             if(encerra == 1):
                 print("Empate!")
+                mostra_por_linhas(estado)
                 set_sair()
             else:
                 return 0
