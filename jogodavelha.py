@@ -189,14 +189,13 @@ def eh_terminal(estado, encerra):
 
     pontuacaoMaquina = 0
     espacosVazios = 9
+
     # Verificando se tem combo que termina o jogo nas linhas
     for x in range(0,5):
        if (estado[x][0] is not None and estado[x][0] == estado[x][2] and estado[x][2] == estado[x][4]):
             if (estado[x][0] == "X"):
-                # print "ENTREI AQ"
                 pontuacaoMaquina = 1
             elif (estado[x][0] == "0"):
-                # print "ENTREI AQ TBTBTBTBTB"
                 pontuacaoMaquina = -1
 
     # Verificando se tem combo que termina o jogo nas colunas
@@ -209,7 +208,6 @@ def eh_terminal(estado, encerra):
                 elif (estado[0][y] == "0"):
                    pontuacaoMaquina = -1
 
-
     # Verificando se tem combo que termina o jogo nas diagonais
     if(pontuacaoMaquina == 0):
         if(estado[2][2] is not None and (estado[0][0] == estado[2][2] and estado[0][0] == estado[4][4]) or (estado[0][4] == estado[2][2] and estado[0][4] == estado[4][0])):
@@ -217,6 +215,7 @@ def eh_terminal(estado, encerra):
                pontuacaoMaquina = 1
             elif (estado [2][2] == "0"):
                pontuacaoMaquina = -1
+
     # Conta espaços em branco pra continuar o jogo ou não
     for i in range(0,5):
         for j in range(0,5):
@@ -226,7 +225,6 @@ def eh_terminal(estado, encerra):
     if(pontuacaoMaquina != 0):
         if(encerra == 1):
             if(pontuacaoMaquina > 0):
-                #termina() utilizar func termina..
                 print("Computador wins")
                 set_sair()
             else:
@@ -235,7 +233,6 @@ def eh_terminal(estado, encerra):
                 set_sair()
         else:
             peso = pontuacaoMaquina * (espacosVazios + 1)
-            # print "PESO: " + str(peso)
             return peso
 
     else:
@@ -246,7 +243,6 @@ def eh_terminal(estado, encerra):
             else:
                 return 0
         else:
-            #print "Jogo não terminado"
             return None
 
 # Calcula MiniMax de cada nó
@@ -280,7 +276,6 @@ def calcula_minimax(nodo):
 
 def gera_filhos(nd):
 
-    # lista_estados = ListaEstados([])
     global pilha
 
     jogador = "X" if nd.jogador == "0" else "0"
@@ -296,13 +291,11 @@ def gera_filhos(nd):
                 novo_no.pai = nd
                 novo_no.jogador = jogador
                 novo_no.minimax = eh_terminal(novo_estado, 0)
-                # print "AAAAAAAAAAAAAAAAAA MINIMAX " + str(novo_no.minimax)
                 novo_no.estado = novo_estado
 
             	if (novo_no.minimax == None):
                     pilha.append(novo_no)
 
-                #pilha.append(novo_no)
                 nd.filhos.append(novo_no)
 
 # Computador joga
@@ -311,24 +304,12 @@ def joga_computador():
     global estado_atual
 
     maximo = -1
-    #print "Estado jogada humano"
-    #mostra_por_linhas(estado_atual.estado)
 
     contad = 1
     for filho in estado_atual.filhos:
-        #print "Procurando Filhos"
         if(filho.minimax != None and filho.minimax > maximo):
-            #print "Filho["+str(contad)+"]"
-            mostra_por_linhas(filho.estado)
-
             maximo = filho.minimax
             estado_atual = filho
-
-        contad = contad + 1
-
-    #print "Estado jogada computador"
-
-    #mostra_por_linhas(estado_atual_aux.estado)
 
     # Verifica se atingiu estado terminal, encerrando o jogo
     eh_terminal(estado_atual.estado, 1);
@@ -339,15 +320,13 @@ while(jogar):
     mostra_por_linhas(estado_atual.estado)
 
     posicao = raw_input("Escolha uma posição para jogar. 0 para sair: ")
-
     set_posicao(posicao)
 
-    #mostra_por_linhas(estado_atual.estado)
+    if(posicao == "0"):
+        break
 
     if(len(raiz.filhos) == 0):
-        # Usuário joga primeiro
-        # TODO criar rotina para poder setar inicio e jogada
-        # do computador
+
         raiz.jogador = "0"
         raiz.estado = estado_atual.estado
 
@@ -357,29 +336,13 @@ while(jogar):
             no = pilha.pop(len(pilha)-1)
             gera_filhos(no)
 
-        # Testando os filhos da primeira camada
-        if(0):
-            print "**************FILHOS DA RAIZ***************"
-            # Listando filhos inseridos
-            for nd in raiz.filhos:
-                print "----------------------------"
-                mostra_por_linhas(nd.estado)
-
-            print "*****************************"
-
-        print "Calculando pontos"
         # Calcula todos os pontos de cada nó
         calcula_minimax(raiz)
-        print "Fim pontos"
         estado_atual = raiz
 
-        #print "*****************************"
     else:
         for fi in estado_atual.filhos:
             if(fi.estado == estado_atual.estado):
                 estado_atual = fi
 
-    print "Joga Computador"
     joga_computador()
-    print "Fim Joga Computador"
-    #mostra_por_linhas(estado_atual.estado)
