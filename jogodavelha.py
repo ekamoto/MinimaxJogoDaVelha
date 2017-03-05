@@ -314,17 +314,24 @@ def joga_computador():
     estado_atual_aux = Node([],[],None,None,[])
 
     maximo = -1
-    print "Estado jogada humano"
-    mostra_por_linhas(estado_atual.estado)
+    #print "Estado jogada humano"
+    #mostra_por_linhas(estado_atual.estado)
 
+    contad = 1
     for filho in estado_atual.filhos:
+        #print "Procurando Filhos"
         if(filho.minimax != None and filho.minimax > maximo):
+            #print "Filho["+str(contad)+"]"
+            mostra_por_linhas(filho.estado)
+
             maximo = filho.minimax
             estado_atual_aux = filho
 
-    print "Estado jogada computador"
+        contad = contad + 1
 
-    mostra_por_linhas(estado_atual_aux.estado)
+    #print "Estado jogada computador"
+
+    #mostra_por_linhas(estado_atual_aux.estado)
 
     estado_atual = estado_atual_aux
 
@@ -372,6 +379,14 @@ while(jogar):
         estado_atual = raiz
 
         #print "*****************************"
+    else:
+
+        #print "Filho 1"
+        #mostra_por_linhas(raiz.filhos[1].estado)
+        #print "Filhos do Filho"
+        for fi in estado_atual.filhos:
+            if(fi.estado == estado_atual.estado):
+                estado_atual = fi
 
     print "Joga Computador"
     joga_computador()
