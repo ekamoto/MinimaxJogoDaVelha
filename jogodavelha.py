@@ -225,6 +225,7 @@ def eh_terminal(estado, encerra):
         if(encerra == 1):
             if(pontuacaoMaquina > 0):
                 print("Computador win!")
+                mostra_por_linhas(estado)
                 set_sair()
             else:
                 print("Humano ganha - Impossível")
