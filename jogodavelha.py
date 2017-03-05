@@ -4,11 +4,13 @@
 # Leandro Shindi Ekamoto
 # Diego Takaki
 #
+# Professor: Edson Takashi Matsubara
 # Jogo da Velha Utilizando MiniMax
-#
+###############################################################
+# https://github.com/ekamoto/MinimaxJogoDaVelha/commits/master
+###############################################################
 
 from Node import Node
-
 
 linha, coluna = 5, 5;
 
